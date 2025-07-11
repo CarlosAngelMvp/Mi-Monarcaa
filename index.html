@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Sistema</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background-color: #000;
+      color: #0ff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }#panel {
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 3px solid #0ff;
+  border-radius: 15px;
+  box-shadow: 0 0 30px #0ff;
+  padding: 30px 40px;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.titulo {
+  font-size: 1.2rem;
+  color: #0ff;
+  margin-bottom: 20px;
+}
+
+.contenido {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.contador {
+  font-size: 2rem;
+  color: #f00;
+  margin-bottom: 20px;
+}
+
+.botones button {
+  font-family: 'Orbitron', sans-serif;
+  background-color: transparent;
+  border: 2px solid #0ff;
+  color: #0ff;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botones button:hover {
+  background-color: #0ff;
+  color: #000;
+}
+
+#pantalla-negra {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#pantalla-negra p {
+  color: #f00;
+  font-size: 1.5rem;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+  </style>
+</head>
+<body>
+  <audio id="click-sound" src="mixkit-sci-fi-click-900.mp3" preload="auto"></audio>
+  <audio id="music" src="die-with-a-smile.mp3" autoplay loop></audio>  <div id="panel">
+    <div class="titulo">[ NOTIFICACIÓN ]</div>
+    <div class="contenido">
+      Tu corazón se detendrá en:
+    </div>
+    <div class="contador" id="contador">01:00</div>
+    <div class="contenido">Si decides no aceptar...</div>
+    <div class="contenido">¿Aceptas?</div>
+    <div class="botones">
+      <button onclick="aceptar()">YES</button>
+      <button onclick="rechazar()">NO</button>
+    </div>
+  </div>  <div id="pantalla-negra">
+    <p>[ SISTEMA ]Tu decisión ha sido tomada...
+
+El corazón ha dejado de latir.
+
+Has fallado.</p>
+
+  </div>  <script>
+    const contador = document.getElementById('contador');
+    const clickSound = document.getElementById('click-sound');
+    const panel = document.getElementById('panel');
+    const pantallaNegra = document.getElementById('pantalla-negra');
+
+    let segundos = 60;
+
+    const interval = setInterval(() => {
+      segundos--;
+      let min = String(Math.floor(segundos / 60)).padStart(2, '0');
+      let sec = String(segundos % 60).padStart(2, '0');
+      contador.textContent = `${min}:${sec}`;
+
+      if (segundos <= 0) {
+        clearInterval(interval);
+        fallar();
+      }
+    }, 1000);
+
+    function aceptar() {
+      clickSound.play();
+      clearInterval(interval);
+      alert("¡Has aceptado la misión! (Aquí iría el siguiente panel)");
+    }
+
+    function rechazar() {
+      clickSound.play();
+      clearInterval(interval);
+      fallar();
+    }
+
+    function fallar() {
+      panel.style.display = 'none';
+      pantallaNegra.style.display = 'flex';
+    }
+  </script></body>
+  </html>
